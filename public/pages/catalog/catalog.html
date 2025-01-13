@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Ferretera Arco Iris | Proveedor de productos de ferretería, pinturería y corralón.</title>
+        <meta name="author" content="Ferretera Arco Iris">
+        <meta name="description" content="Ferretera Arcoiris es una distribuidora con más de 20 años de experiencia en artículos de ferretería, pinturería y corralón, ubicados en Santa Fé, Soldini, Argentina. Ofrecemos una amplia gama de productos de calidad y contamos con más de 10,000 artículos en nuestro catálogo. Nos esforzamos por ser un proveedor integral, brindando soluciones a las necesidades del mercado actual.">
+        <meta name="keywords" content="distribuidor artículos ferretería pinturería corralón experiencia calidad proveedor integral ética transparencia clientes proveedores">
+        <meta name="robots" content="index, follow">
+        <style>
+            @import "/public/node_modules/bootstrap/dist/css/bootstrap.min.css";
+            @import "/public/node_modules/@fontsource/roboto-condensed/700.css";
+            @import "/public/node_modules/@fontsource/roboto-condensed/400.css";
+            @import "/public/node_modules/@fontsource/roboto-condensed/300.css";
+
+            /*******/
+
+            html, body {
+                font-family: "Roboto Condensed", serif;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            /*******/
+
+            .Products .entry-container .page {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                grid-gap: 1rem;
+                margin-bottom: 1rem;
+                break-after: page;
+            }
+
+            .Products .category-title {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                background-color: #f4f4f4;
+                color: #363333;
+                font-weight: bold;
+                font-size: 1.3rem;
+            }
+
+            .Products .entry-container .page:last-child {
+                margin-bottom: 0;
+            }
+
+            /*******/
+
+            .Products .product {
+                height: 100%;
+                border: 1px solid transparent;
+                display: flex;
+                flex-flow: column;
+            }
+
+            /*******/
+
+            .Products .product .product-header {
+                position: relative;
+                overflow: hidden;
+                flex: 0 0 auto;
+                width: 100%;
+                height: 150px;
+                background-color: #e5e9ee;
+            }
+
+            .Products .product .product-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .Products .product .product-price {
+                font-weight: bold;
+                background-color: #e77676;
+                padding: 0.5rem 1rem;
+                position: absolute;
+                top: 10px;
+                font-size: 1.1rem;
+                left: 10px;
+                color: #ffffff;
+                border-radius: .5rem;
+            }
+
+            /*******/
+
+            .Products .product .product-content {
+                flex: 1 1 auto;
+                padding: 1rem;
+                display: flex;
+                flex-flow: column;
+            }
+
+            .Products .product .product-description {
+                color: #36425b;
+                font-weight: bold;
+            }
+
+            .Products .product .product-category {
+                flex: 1 1 auto;
+            }
+
+            .Products .product .product-code {
+                background-color: #504f81;
+                color: white;
+                font-size: 0.9rem;
+                border-radius: 0.3rem;
+                padding: 0.4rem 0.5rem;
+                width: max-content;
+                align-self: end;
+            }
+
+            /*******/
+        </style>
+    </head>
+
+    <body>
+        <div class="Products">
+            <div class="row mb-4" style="break-before: auto">
+                <div class="col">
+                    <h2 class="mb-0">Catalogo de productos</h2>
+                </div>
+                <div class="col-auto">
+                    <!--DATE-->
+                </div>
+            </div>
+            <div class="entry-container">
+                <!--ENTRIES-->
+            </div>
+        </div>
+    </body>
+</html>
