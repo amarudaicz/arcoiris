@@ -1,0 +1,75 @@
+table.custom-table {
+    width: 100%;
+    border-spacing: 0 0.8rem;
+    border-collapse: separate;
+}
+
+table.custom-table thead tr th {
+    background-color: white;
+    border-right: 5px solid #f1f1f1;
+    font-weight: normal;
+    padding: 1rem;
+    color: #59606e;
+}
+
+table.custom-table thead tr th:last-child {
+    border-right: none;
+}
+
+table.custom-table tbody tr {
+    background-color: white;
+    box-shadow: 0 .2rem .3rem rgba(0, 0, 0, 0.1)
+}
+
+table.custom-table tbody tr td {
+    padding: 1rem 1rem 1rem 1.5rem;
+}
+
+[data-theme="dark"] table.custom-table thead tr th {
+    background-color: #242f3f;
+    border-color: #191f2c;
+    color: #7988a8;
+}
+
+[data-theme="dark"] table.custom-table tbody tr {
+    background-color: #242f3f;
+}
+
+@media (max-width: 700px) {
+    table.custom-table thead {
+        display: none;
+    }
+
+    table.custom-table tbody.entries {
+        display: block;
+    }
+
+    table.custom-table tbody.entries tr {
+        display: block;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    table.custom-table tbody.entries tr td {
+        display: block;
+        text-align: end;
+        margin: .3rem 0;
+        background-color: white;
+    }
+
+    table.custom-table tbody.entries tr td:before {
+        content: attr(data-colname);
+        display: block;
+        color: #59606e;
+        text-align: start;
+    }
+
+    [data-theme="dark"] table.custom-table tbody tr td {
+        background-color: #242f3f;
+    }
+
+    [data-theme="dark"] table.custom-table tbody.entries tr td:before {
+        color: #b0b7c5;
+    }
+}

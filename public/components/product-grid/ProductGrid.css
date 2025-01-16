@@ -1,0 +1,159 @@
+.ProductGrid .spinner-border {
+    color: rgba(63, 78, 107, 0.5) !important;
+}
+
+/*******/
+
+.ProductGrid .top-filter {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border: 1px solid #7d889630;
+    border-radius: .3rem;
+    overflow: hidden;
+    background-color: white;
+}
+
+.ProductGrid .top-filter select {
+    padding: 1rem;
+    min-height: 55px;
+    margin-right: 0.8rem;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+.ProductGrid .top-filter select[name='category'] {
+    max-width: 200px;
+}
+
+.ProductGrid .top-filter select[name='sort'] {
+    max-width: 200px;
+}
+
+.ProductGrid .top-filter input {
+    padding: 1rem;
+    min-height: 55px;
+    margin: 0;
+    border: none;
+    border-right: 1px solid #7d889630;
+    border-left: 1px solid #7d889630;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+.ProductGrid .top-filter.disabled {
+    background-color: #7d889610;
+    color: #ffffff;
+}
+
+/*******/
+
+.ProductGrid .status {
+    padding: 2rem;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.ProductGrid .status.loading {
+    background-color: rgba(174, 181, 197, 0.10);
+}
+
+.ProductGrid .status-image {
+    width: 200px;
+    margin-bottom: 1.5rem;
+    height: auto;
+}
+
+/*******/
+
+.ProductGrid .entry-container {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/*******/
+
+.ProductGrid .product {
+    box-shadow: 0 1px 6px -4px #0000009A;
+    height: 100%;
+    border: 1px solid #00000020;
+    display: flex;
+    flex-flow: column;
+    background-color: white;
+}
+
+.ProductGrid .product .product-header {
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+    width: 100%;
+    height: 250px;
+    background-color: #e5e9ee;
+}
+
+.ProductGrid .product .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* .ProductGrid .product .product-price {
+    font-weight: 900;
+    background-color: #ec6d6d; 
+    padding: 0.5rem 1rem; 
+    position: absolute; 
+    top: 10px;
+    font-size: 1.1rem;
+    left: 10px;
+    color: #fff; 
+    border-radius: .5rem;
+} */
+
+ .ProductGrid .product .product-price {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: rgb(211, 28, 28); 
+    border-radius: .5rem;
+} 
+
+.ProductGrid .product .product-content {
+    flex: 1 1 auto;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+}
+
+.ProductGrid .product .product-description {
+    color: #36425b;
+    font-weight: bold;
+    height: 48px;
+}
+
+.ProductGrid .product .product-category {
+    flex: 1 1 auto;
+}
+
+.ProductGrid .product .additional-text {
+    padding: 1rem;
+    background-color: #f1d59a;
+    color: #4a4d54;
+}
+
+.ProductGrid .product .product-quantity {
+    max-width: 100px;
+}
+
+.ProductGrid .product .product-code {
+    background-color: #504f81;
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 0.3rem;
+    width: max-content;
+    align-self: end;
+}

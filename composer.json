@@ -1,0 +1,25 @@
+{
+  "name": "tokyo/arcoirisferretera",
+  "authors": [
+    {
+      "name": "jorrmaglione",
+      "email": "jorr.hs@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "ext-yaml": "*",
+    "ext-json": "*",
+    "ext-mysqli": "*",
+    "phpoffice/phpspreadsheet": "^1.27",
+    "ext-fileinfo": "*",
+    "ext-iconv": "*",
+    "ext-zlib": "*",
+    "phpmailer/phpmailer": "^6.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "": ""
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.FeaturedCatalogUpdate {
+    opacity: 0;
+    transform: scale(0);
+    position: fixed;
+    background-color: rgba(0, 0, 0, .4);
+    width: 100vw;
+    height: 100vh;
+    padding: 0.8rem;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: opacity .3s ease-in-out 0s, transform 0s step-end .3s;
+}
+
+.FeaturedCatalogUpdate .content {
+    background-color: white;
+    max-width: 500px;
+    width: 100%;
+    display: block;
+    margin: auto;
+    padding: 2.5rem;
+    border-radius: .5rem;
+    transform: translateY(-20%);
+    transition: transform .3s ease-in-out 0s;
+}
+
+.FeaturedCatalogUpdate.visible {
+    transform: scale(1);
+    opacity: 1;
+    transition: opacity .3s ease-in-out 0s, transform 0s ease-in-out 0s;
+}
+
+.FeaturedCatalogUpdate.visible .content {
+    transform: translateY(0%);
+    transition: transform .3s ease-in-out 0s;
+}
+
+[data-theme="dark"] .FeaturedCatalogUpdate .content {
+    color: white;
+    background-color: #242f3f;
+}
+
+/*******************************************/
+
+.FeaturedCatalogUpdate .modal-title {
+    color: #47556e;
+    font-size: 1.2rem;
+}
+
+[data-theme="dark"] .FeaturedCatalogUpdate .modal-title {
+    color: #c7ccd5;
+}

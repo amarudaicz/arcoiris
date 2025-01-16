@@ -1,0 +1,93 @@
+.Header {
+    position: fixed;
+    width: 100%;
+    max-width: 100%;
+    height: var(--header-height);
+    box-shadow: 0 .04rem .04rem rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.Header:after {
+    display: block;
+    content: '';
+    height: 5px;
+    width: 0;
+    background-color: #5a80e0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: -100;
+    box-shadow: 0 0 .2rem .1rem #5a80e0;
+}
+
+.Header.loading:after {
+    width: 80%;
+    opacity: 1;
+    transition: width 5s ease-in-out;
+}
+
+.Header.loaded:after {
+    width: 100%;
+    opacity: 1;
+    transition: width 1s ease-in-out;
+}
+
+.Header .content {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    height: 100%;
+}
+
+.Header .nav-button-wrapper {
+    overflow: hidden;
+    transition: max-width .3s ease-in-out;
+}
+
+.Header .nav-button {
+    margin-right: 0.5rem;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0.3rem 1rem;
+    transition: color .3s ease-in-out;
+}
+
+.Header .nav-button:hover,
+.Header .nav-button:focus {
+    background-color: rgba(174, 179, 189, 0.15);
+}
+
+.Header .account-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: url('/public/images/unknown-user.gif') no-repeat no-repeat center center;
+    background-size: cover;
+    border: none;
+    outline: 1px solid #758bb000;
+    transition: outline .3s ease-in-out;
+}
+
+.Header .account-button:hover,
+.Header .account-button:focus {
+    outline: 2px solid #758bb0FF;
+}
+
+html[data-theme="dark"] .Header .content {
+    background-color: #2c374c;
+    color: white;
+}
+
+html[data-theme="dark"] .Header .nav-button {
+    color: white;
+}
+
+html[data-theme="dark"] .account-button:hover {
+    outline: 1px solid #ffffff;
+}

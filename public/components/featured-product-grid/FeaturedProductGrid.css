@@ -1,0 +1,157 @@
+.FeaturedProductGrid .spinner-border {
+    color: rgba(212, 216, 224, 0.5) !important;
+}
+
+/*******/
+
+.FeaturedProductGrid .top-filter {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border: 1px solid #7d889630;
+    border-radius: .3rem;
+    overflow: hidden;
+    background-color: white;
+}
+
+.FeaturedProductGrid .top-filter select {
+    padding: 1rem;
+    min-height: 55px;
+    margin-right: 0.8rem;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+.FeaturedProductGrid .top-filter select[name='category'] {
+    max-width: 200px;
+}
+
+.FeaturedProductGrid .top-filter select[name='sort'] {
+    max-width: 200px;
+}
+
+.FeaturedProductGrid .top-filter input {
+    padding: 1rem;
+    min-height: 55px;
+    margin: 0;
+    border: none;
+    border-right: 1px solid #7d889630;
+    border-left: 1px solid #7d889630;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+.FeaturedProductGrid .top-filter.disabled {
+    background-color: #7d889610;
+    color: #ffffff;
+}
+
+/*******/
+
+.FeaturedProductGrid .status {
+    padding: 2rem;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.FeaturedProductGrid .status.loading {
+    background-color: rgba(114, 124, 148, 0.20);
+}
+
+.FeaturedProductGrid .status-image {
+    width: 200px;
+    margin-bottom: 1.5rem;
+    height: auto;
+}
+
+/*******/
+
+.FeaturedProductGrid .entry-container {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/*******/
+
+.FeaturedProductGrid .product {
+    box-shadow: 0 1px 6px -4px #0000009A;
+    height: 100%;
+    border: 1px solid #00000020;
+    display: flex;
+    flex-flow: column;
+    background-color: white;
+}
+
+.FeaturedProductGrid .product .product-header {
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+    width: 100%;
+    height: 370px;
+    background-color: #e5e9ee;
+}
+
+.FeaturedProductGrid .product .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.FeaturedProductGrid .product .product-price {
+    font-weight: bold;
+    background-color: #FF3131;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    top: 10px;
+    font-size: 1.1rem;
+    left: 10px;
+    color: #ffffff;
+    border-radius: .5rem;
+}
+
+.FeaturedProductGrid .product .product-content {
+    flex: 1 1 auto;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column;
+}
+
+.FeaturedProductGrid .product .product-description {
+    color: #36425b;
+    font-weight: bold;
+}
+
+.FeaturedProductGrid .product .product-category {
+    flex: 1 1 auto;
+}
+
+.FeaturedProductGrid .product .additional-text {
+    padding: 1rem;
+    background-color: #f1d59a;
+    color: #4a4d54;
+}
+
+.FeaturedProductGrid .product .product-quantity {
+    max-width: 100px;
+}
+
+.FeaturedProductGrid .product .product-code {
+    background-color: #504f81;
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 0.3rem;
+    width: max-content;
+    align-self: end;
+}
+
+/*******************************/
+
+.FeaturedProductGrid .Paginator .entry-count {
+    color: white;
+}

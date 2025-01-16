@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://arcoirisferretera.com.ar/</loc>
+        <lastmod>2023-11-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://arcoirisferretera.com.ar/products</loc>
+        <lastmod>2023-11-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arcoirisferretera.com.ar/products/featured</loc>
+        <lastmod>2023-11-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arcoirisferretera.com.ar/terms-and-policy</loc>
+        <lastmod>2023-11-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+</urlset>

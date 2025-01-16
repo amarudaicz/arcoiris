@@ -1,0 +1,17 @@
+.AdminEmailUpdate {
+    margin: auto;
+    width: 100%;
+    max-width: 600px;
+    min-height: 200px;
+}
+
+.AdminEmailUpdate .content {
+    padding: 2rem;
+    background-color: white;
+    border-radius: .5rem;
+    margin: auto;
+}
+
+[data-theme="dark"] .AdminEmailUpdate .content {
+    background-color: #36425b;
+}

@@ -1,0 +1,29 @@
+.AdminSignIn {
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+}
+
+.AdminSignIn label {
+    position: absolute;
+    top: -14px;
+    left: 15px;
+    background-color: white;
+    display: inline-block;
+    padding: 0 0.3rem;
+    z-index: 100;
+    color: #7d8896;
+    margin: 0;
+}
+
+.AdminSignIn .go-back {
+    color: #858585;
+    text-decoration: none;
+    font-family: "Roboto Condensed", serif;
+    font-weight: normal;
+}
+
+.AdminSignIn .go-back:hover {
+    color: #cba32f;
+}

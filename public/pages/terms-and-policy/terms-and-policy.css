@@ -1,0 +1,40 @@
+@import "/public/node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "/public/node_modules/sweetalert2/dist/sweetalert2.min.css";
+@import "/public/node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/700.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/400.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/300.css";
+
+@import "/public/components/whatsapp-chat-button/WhatsAppChatButton.css";
+@import "/public/components/site-header/SiteHeader.css";
+@import "/public/components/site-footer/SiteFooter.css";
+
+:root {
+    --center-width: 1320px;
+}
+
+html, body {
+    font-family: "Roboto Condensed", serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body > main {
+    min-height: calc(100vh - 120px - 317px);
+}
+
+#terms-of-service .center {
+    margin: auto;
+    max-width: 1000px;
+    width: 100%;
+    padding: 4rem 1rem 1rem;
+}
+
+#privacy-policy .center {
+    margin: auto;
+    max-width: 1000px;
+    width: 100%;
+    padding: 1rem 1rem 4rem;
+}

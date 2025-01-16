@@ -1,0 +1,36 @@
+.WhatsAppChatButton.cd3c36ae595 {
+    background-color: #357e5d;
+    position: fixed;
+    border-radius: .3rem 0 0 .3rem;
+    bottom: 1rem;
+    right: 0;
+    transform: translateX(100%);
+    animation: WAppIcon-animation .3s 1s ease-in-out running 1 forwards;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+.WhatsAppChatButton.cd3c36ae595:hover {
+    background-color: #40946e;
+}
+
+.WhatsAppChatButton.cd3c36ae595 a {
+    padding: 1rem 1.1rem;
+    display: block;
+}
+
+.WhatsAppChatButton.cd3c36ae595 a svg {
+    transition: transform .3s ease-in-out;
+    width: 35px;
+    height: 35px;
+}
+
+.WhatsAppChatButton.cd3c36ae595:hover a svg {
+    transform: scale(1.1);
+}
+
+@keyframes WAppIcon-animation {
+    100% {
+        transform: translateX(0%)
+    }
+}

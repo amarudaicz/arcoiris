@@ -1,0 +1,219 @@
+@import "/public/node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "/public/node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "/public/node_modules/sweetalert2/dist/sweetalert2.min.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/700.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/400.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/300.css";
+
+@import "/public/components/whatsapp-chat-button/WhatsAppChatButton.css";
+@import "/public/components/free-shipping-maps/FreeShippingMaps.css";
+@import "/public/components/customer-sign-in/CustomerSignIn.css";
+@import "/public/components/contact-form/ContactForm.css";
+@import "/public/components/site-header/SiteHeader.css";
+@import "/public/components/site-footer/SiteFooter.css";
+
+:root {
+    --center-width: 1320px;
+}
+
+html, body {
+    font-family: "Roboto Condensed", serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+body > main {
+    min-height: calc(100vh - 120px - 341px);
+}
+
+/*********************/
+
+#banner {
+    width: 100%;
+    background: #31708f url("/public/images/banner.webp") no-repeat no-repeat bottom center fixed;
+    background-size: cover;
+    min-height: 760px;
+    display: flex;
+    align-items: center;
+}
+
+#banner > .center {
+    width: 100%;
+    max-width: var(--center-width);
+    margin: auto;
+    display: block;
+    padding: 2rem;
+}
+
+/*********************/
+
+#featured-products {
+    background-color: orange;
+}
+
+#featured-products > .center {
+    width: 100%;
+    max-width: var(--center-width);
+    margin: auto;
+    display: block;
+    padding: 2rem;
+}
+
+/*********************/
+
+#about-us > .center {
+    width: 100%;
+    max-width: var(--center-width);
+    margin: auto;
+    display: block;
+    padding: 8rem 2rem 10rem;
+}
+
+#about-us .about-us-image {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#about-us .about-us-image img {
+    width: 100%;
+}
+
+/*********************/
+
+#services {
+    background-color: #282b34;
+}
+
+#services > .center {
+    width: 100%;
+    max-width: var(--center-width);
+    margin: auto;
+    display: block;
+    padding: 8rem 2rem 10rem;
+}
+
+#services .service-box {
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: .3rem;
+    height: 100%;
+}
+
+#services .service-box:nth-child(2) {
+    transform: scale(2);
+}
+
+#services .service-box .service-image img {
+    width: 100%;
+}
+
+#services .service-box p {
+    text-align: justify;
+}
+
+#services .service-box .service-title {
+    min-height: 60px;
+}
+
+#services .service-box .service-text {
+}
+
+/*********************/
+
+#shipping {
+    position: relative;
+}
+
+#shipping > .center {
+    width: 100%;
+    max-width: var(--center-width);
+    margin: auto;
+    display: block;
+    padding: 8rem 2rem 10rem;
+}
+
+/*********************/
+
+#contact {
+    position: relative;
+    background-color: rgba(30, 31, 38, 0.95);
+    color: white;
+}
+
+#contact:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: url("/public/images/contact.jpg") no-repeat no-repeat center center fixed;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+#contact .center {
+    padding: 8rem 2rem 10rem;
+    max-width: var(--center-width);
+    margin: auto;
+}
+
+#contact .contact-information {
+    padding: 2rem 2.5rem;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+#contact .contact-icon {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    background-color: #2c3542;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#contact .social {
+    flex: 1 1 auto;
+}
+
+#contact .social-link {
+    --background-color: #2c3542;
+    width: 50px;
+    height: 50px;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.3rem;
+    color: white;
+    transition: background-color .3s ease-in-out;
+}
+
+#contact .social-link:hover {
+    --background-color: #ce732b;
+}
+
+/********************/
+
+#map {
+    --height: 450px;
+    overflow: hidden;
+    max-height: var(--height);
+}
+
+#map iframe {
+    width: 100%;
+    height: var(--height);
+}
+
+/*********************/

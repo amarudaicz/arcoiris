@@ -1,0 +1,7 @@
+.idea/
+vendor/
+public/node_modules/
+storage/catalog/*
+storage/csv/*
+storage/orders/*
+storage/tmp/*

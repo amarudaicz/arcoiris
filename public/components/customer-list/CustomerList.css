@@ -1,0 +1,30 @@
+.CustomerList {
+    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 200px;
+}
+
+.CustomerList .balance {
+    font-weight: bold;
+}
+
+.CustomerList .balance.red {
+    color: #d76e6e;
+}
+
+.CustomerList .balance.green {
+    color: #1ea566;
+}
+
+.CustomerList .customer-image {
+    --diameter: 50px;
+    width: var(--diameter);
+    height: var(--diameter);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+}

@@ -1,0 +1,43 @@
+.SiteFooter {
+    background-color: #ffffff;
+}
+
+.SiteFooter a {
+    color: white;
+    text-decoration: none;
+    line-height: 2rem;
+}
+
+.SiteFooter a:hover,
+.SiteFooter a:focus {
+    color: #ce732b;
+}
+
+/******/
+
+.SiteFooter .main-bar {
+    background-color: #16181e;
+}
+
+.SiteFooter .content {
+    position: relative;
+    padding: 4rem 2rem 4rem;
+    max-width: 1320px;
+    margin: auto;
+}
+
+/******/
+
+.SiteFooter .bottom-bar {
+    background-color: #22242c;
+}
+
+.SiteFooter .center {
+    text-align: center;
+    max-width: var(--center-width);
+    margin: auto;
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 0.9rem;
+}
+

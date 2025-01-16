@@ -1,0 +1,118 @@
+.ProductImageUpdate {
+    opacity: 0;
+    transform: scale(0);
+    position: fixed;
+    background-color: rgba(0, 0, 0, .4);
+    width: 100vw;
+    height: 100vh;
+    padding: 0.8rem;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: opacity .3s ease-in-out 0s, transform 0s step-end .3s;
+}
+
+.ProductImageUpdate .content {
+    background-color: white;
+    max-width: 500px;
+    width: 100%;
+    display: block;
+    margin: auto;
+    padding: 2.5rem;
+    border-radius: .5rem;
+    transform: translateY(-20%);
+    transition: transform .3s ease-in-out 0s;
+}
+
+.ProductImageUpdate.visible {
+    transform: scale(1);
+    opacity: 1;
+    transition: opacity .3s ease-in-out 0s, transform 0s ease-in-out 0s;
+}
+
+.ProductImageUpdate.visible .content {
+    transform: translateY(0%);
+    transition: transform .3s ease-in-out 0s;
+}
+
+[data-theme="dark"] .ProductImageUpdate .content {
+    color: white;
+    background-color: #242f3f;
+}
+
+/****************/
+
+.ProductImageUpdate .modal-title {
+    color: #47556e;
+    font-size: 1.2rem;
+}
+
+[data-theme="dark"] .ProductImageUpdate .modal-title {
+    color: #c7ccd5;
+}
+
+/****************/
+
+.ProductImageUpdate .zone {
+    --zone-padding: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    padding: var(--zone-padding);
+    min-height: 200px;
+    background-color: #7d889620;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.ProductImageUpdate .zone-label {
+    text-align: center;
+    overflow: hidden;
+    max-height: 150px;
+    transition: opacity .3s ease-in-out .2s, max-height .3s ease-in-out .1s, transform .3s ease-in-out 0s;
+}
+
+.ProductImageUpdate .zone-label img {
+    max-width: 80px;
+    width: 100%;
+}
+
+/****************/
+
+.ProductImageUpdate .zone-image {
+    overflow: hidden;
+    position: relative;
+    min-height: 0;
+    width: 100%;
+    background: #36425b no-repeat no-repeat center center;
+    background-size: cover;
+    transform: translateY(-150px);
+    transition: opacity .3s ease-in-out .3s, min-height .3s ease-in-out 0s, transform .3s ease-in-out .1s;
+}
+
+.ProductImageUpdate .zone-image button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/****************/
+
+.ProductImageUpdate.loaded .zone-label {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(100px);
+    transition: opacity .3s ease-in-out .2s, max-height .3s ease-in-out .1s, transform .3s ease-in-out 0s;
+}
+
+.ProductImageUpdate.loaded .zone-image {
+    opacity: 1;
+    height: 100%;
+    min-height: 250px;
+    transform: translateY(0);
+    transition: opacity .3s ease-in-out .3s, min-height .3s ease-in-out 0s, transform .3s ease-in-out .1s;
+}

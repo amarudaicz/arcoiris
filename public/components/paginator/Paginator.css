@@ -1,0 +1,97 @@
+.Paginator {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Paginator .entry-count {
+    display: flex;
+    align-items: center;
+}
+
+.Paginator .control-button {
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    padding: 0.3rem 0.6rem;
+    box-shadow: 0 .2rem .3rem rgba(0, 0, 0, 0.1);
+    transition: background-color .1s ease-in-out;
+}
+
+.Paginator .control-button:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.Paginator .control-button:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.Paginator .control-button:not([disabled]):hover,
+.Paginator .control-button:not([disabled]):focus {
+    background-color: #e8e8e8;
+}
+
+.Paginator .page-buttons {
+    display: inline-block;
+}
+
+.Paginator .page-button {
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    padding: 0.3rem 0.6rem;
+    box-shadow: 0 .2rem .3rem rgba(0, 0, 0, 0.1);
+    transition: background-color .1s ease-in-out, color .1s ease-in-out;
+    margin: 0 .2rem;
+}
+
+.Paginator .page-button.current-page {
+    background-color: #2c5394;
+    color: white;
+}
+
+.Paginator .page-button:not(.current-page):hover,
+.Paginator .page-button:not(.current-page):focus {
+    background-color: #f3f3f3;
+}
+
+[data-theme="dark"] .Paginator .control-button {
+    background-color: #242f3f;
+    color: white;
+}
+
+[data-theme="dark"] .Paginator .control-button:not([disabled]):hover,
+[data-theme="dark"] .Paginator .control-button:not([disabled]):focus {
+    background-color: #3c4e69;
+
+}
+
+[data-theme="dark"] .Paginator .page-button {
+    background-color: #242f3f;
+    color: white;
+}
+
+[data-theme="dark"] .Paginator .page-button.current-page {
+    background-color: #2c5394;
+}
+
+[data-theme="dark"] .Paginator .page-button:not(.current-page):hover,
+[data-theme="dark"] .Paginator .page-button:not(.current-page):focus {
+    background-color: #3c4e69;
+}
+
+@media (max-width: 700px) {
+    .Paginator {
+        display: block;
+        margin-top: 0.5rem;
+    }
+
+    .Paginator .entry-count {
+        margin: auto auto .5rem auto;
+        width: max-content;
+    }
+
+    .Paginator .control-section {
+        width: max-content;
+        margin: auto;
+    }
+}

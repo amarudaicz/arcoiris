@@ -1,0 +1,119 @@
+.ShoppingCart label {
+  margin-bottom: 0.3rem; }
+
+/************************************/
+.ShoppingCart .item-image {
+  width: 100%;
+  max-width: 120px;
+  aspect-ratio: 10/8;
+  object-fit: cover;
+  border-radius: .3rem;
+  box-shadow: 0 2px 5px 2px rgba(17, 36, 56, 0.13); }
+
+.ShoppingCart .item-price {
+  color: #3d4572; }
+
+.ShoppingCart .quantity-input {
+  max-width: 80px;
+  border-color: #2c374c25;
+  border-radius: 0; }
+
+.ShoppingCart .item-total {
+  color: #3d4572;
+  font-weight: bold; }
+
+.ShoppingCart .custom-table {
+  --bg-color: #3f516c;
+  --border-color: white;
+  width: 100%;
+  border-spacing: 0 0;
+  border-collapse: separate; }
+
+.ShoppingCart .custom-table thead tr th {
+  background-color: var(--bg-color);
+  border-right: 0 solid var(--border-color);
+  font-weight: normal;
+  padding: 1rem;
+  color: #ffffff; }
+
+.ShoppingCart .custom-table thead tr th:last-child {
+  border-right: none; }
+
+.ShoppingCart .custom-table tbody tr td {
+  border-bottom: 1px solid #dbdee3;
+  padding: 1rem .5rem; }
+
+/************************************/
+.ShoppingCart .empty-view {
+  height: 100%;
+  background: #f6f6f6 url("/public/images/empty-cart.svg") no-repeat no-repeat center center;
+  background-size: 40%; }
+
+/************************************/
+.ShoppingCart .cart-detail {
+  padding: 1.8rem;
+  background-color: #3f516c;
+  color: white; }
+
+.ShoppingCart .cart-detail textarea {
+  height: 100px;
+  resize: none; }
+
+.ShoppingCart .cart-detail input::placeholder,
+.ShoppingCart .cart-detail textarea::placeholder {
+  color: #2c354280; }
+
+/************************************/
+.ShoppingCart .checkout-button {
+  background-color: #4dbd49;
+  padding: 1rem 1rem;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  width: 100%;
+  transition: background-color .3s ease-in-out, box-shadow .2s ease-in-out; }
+
+.ShoppingCart .checkout-button[disabled] {
+  background-color: #84d181; }
+
+.ShoppingCart .checkout-button:not([disabled]):hover,
+.ShoppingCart .checkout-button:not([disabled]):focus {
+  outline: none;
+  background-color: #3c9b38; }
+
+/************************************/
+.ShoppingCart:not(.empty) .empty-view {
+  display: none; }
+
+.ShoppingCart:not(.loaded) .cart-items {
+  display: none; }
+
+/***********************************/
+@media (max-width: 700px) {
+  .ShoppingCart .custom-table {
+    --bg-color: #f6f7fb; }
+
+  .ShoppingCart .custom-table thead {
+    display: none; }
+
+  .ShoppingCart .custom-table tbody.entries {
+    display: block; }
+
+  .ShoppingCart .custom-table tbody.entries tr {
+    display: block;
+    margin-bottom: 1rem;
+    box-shadow: none; }
+
+  .ShoppingCart .custom-table tbody.entries tr td {
+    display: block;
+    text-align: end;
+    margin: .3rem 0;
+    background-color: var(--bg-color); }
+
+  .ShoppingCart .custom-table tbody.entries tr td:before {
+    content: attr(data-colname);
+    display: block;
+    color: #59606e;
+    text-align: start; } }
+
+/*# sourceMappingURL=ShoppingCart.css.map */

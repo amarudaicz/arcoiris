@@ -1,0 +1,35 @@
+Options -Indexes
+
+<IfModule deflate_module>
+    AddOutputFilterByType DEFLATE text/html application/json text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+<FilesMatch "\.html$">
+    Require all denied
+</FilesMatch>
+
+<IfModule headers_module>
+#    <FilesMatch "\.(js|css)$">
+#        Header set Cache-Control "max-age=1800"
+#    </FilesMatch>
+
+    <FilesMatch "\.(img|png|webp|jpe?g)$">
+        Header merge Cache-Control "max-age=86400"
+    </FilesMatch>
+
+    <FilesMatch "\.(woff|woff2)$">
+        Header merge Cache-Control "max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+<IfModule rewrite_module>
+    RewriteEngine On
+
+    RewriteRule ^robots.txt - [END]
+
+    RewriteRule ^public/.* - [END]
+
+    RewriteRule ^api/.*  \api.php [END]
+
+    RewriteRule ^.* \index.php [END]
+</IfModule>

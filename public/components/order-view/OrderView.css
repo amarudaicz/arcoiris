@@ -1,0 +1,17 @@
+.OrderView {
+    margin: auto;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 200px;
+}
+
+.OrderView .order-box {
+    padding: 1rem;
+    background-color: white;
+    height: 100%;
+}
+
+[data-theme="dark"] .OrderView .order-box {
+    color: white;
+    background-color: #242f3f;
+}

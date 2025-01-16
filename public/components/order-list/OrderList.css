@@ -1,0 +1,39 @@
+.OrderList {
+    /*background-color: var(--color-2);*/
+    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 200px;
+}
+
+.OrderList .sale-total.bad {
+    color: #d76e6e;
+}
+
+.OrderList .sale-total.good {
+    color: #1ea566;
+}
+
+.OrderList .sale-status {
+    --diameter: 50px;
+    width: var(--diameter);
+    height: var(--diameter);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+    background: #eaebef no-repeat no-repeat center center;
+    background-size: 60%;
+}
+
+.OrderList .sale-status.issued {
+    color: white;
+    background-color: #1ea56688;
+}
+
+.OrderList .sale-status.cancelled {
+    color: white;
+    background-color: #d76e6e88;
+}

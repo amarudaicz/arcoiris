@@ -1,0 +1,51 @@
+@import "/public/node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import "/public/node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/300.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/400.css";
+@import "/public/node_modules/@fontsource/roboto-condensed/700.css";
+
+html, body {
+    background-color: #131821;
+    height: 100%;
+    color: white;
+    font-size: 16px;
+    font-family: 'Roboto Condensed', serif;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 1rem 3.5rem;
+    border-radius: 0;
+    background-color: #212a3a;
+    border-color: #212a3a;
+    color: whitesmoke;
+}
+
+.btn:hover {
+    background-color: #2e3b52;
+    border-color: #2e3b52;
+}
+
+.logo {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 3rem;
+}

@@ -1,0 +1,83 @@
+html.no-scroll {
+  overflow: hidden;
+}
+
+.CheckoutSuccessModal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(66, 66, 66, 0.82);
+  z-index: 100;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-200%);
+  overflow-x: hidden;
+  overflow-y: auto;
+  opacity: 0;
+}
+
+.CheckoutSuccessModal.animated {
+  transition: opacity .3s ease-in-out .1s, transform 0s step-end .4s;
+}
+
+.CheckoutSuccessModal.visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity .3s ease-in-out 0s, transform 0s step-end 0s;
+}
+
+.CheckoutSuccessModal .content {
+  background-color: white;
+  min-height: 100px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  display: block;
+  position: relative;
+  transform: translateY(-25%);
+  transition: transform .3s ease-in-out 0s;
+}
+
+.CheckoutSuccessModal.visible .content {
+  transform: translateY(0);
+  background-color: white;
+}
+
+/***************************************************/
+
+.CheckoutSuccessModal .header {
+  min-height: 150px;
+  background-color: #1ea566;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: white;
+}
+
+.CheckoutSuccessModal .body {
+  padding: 2rem 2rem 2rem;
+}
+
+.CheckoutSuccessModal .close-button {
+  background-color: #1ea566;
+  padding: 1rem 1rem;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  width: 100%;
+  transition: background-color .3s ease-in-out, box-shadow .2s ease-in-out;
+}
+
+.CheckoutSuccessModal .close-button[disabled] {
+  background-color: lighten(#4dbd49, 15%);
+}
+
+.CheckoutSuccessModal .close-button:not([disabled]):hover,
+.CheckoutSuccessModal .close-button:not([disabled]):focus {
+  outline: none;
+  background-color: darken(#1ea566, 5%);
+}

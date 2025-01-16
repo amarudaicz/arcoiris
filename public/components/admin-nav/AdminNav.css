@@ -1,0 +1,81 @@
+.AdminNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: var(--header-height) 0 0 0;
+    z-index: 5;
+    overflow-y: auto;
+    font-size: .9rem;
+    background-color: #00000000;
+    transform: translateX(-100%);
+    transition: background-color .3s ease-in-out 0s, transform 0s step-end .3s;
+}
+
+.AdminNav.visible {
+    transform: translateX(0%);
+    background-color: #00000055;
+    transition: background-color .3s ease-in-out 0s, transform 0s step-end 0s;
+}
+
+.AdminNav aside {
+    position: relative;
+    background-color: #ffffff;
+    width: 250px;
+    height: 100%;
+    z-index: 1;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform .3s ease-in-out 0s;
+}
+
+.AdminNav.visible aside {
+    transform: translateX(0%);
+}
+
+.AdminNav aside .store {
+    padding: 1.3rem;
+    text-align: center;
+    background-color: #2a5888;
+    color: white;
+    z-index: 0;
+    margin-bottom: 0.4rem;
+}
+
+.AdminNav aside ol li {
+    transition: background-color .3s ease-in-out;
+    position: relative;
+    cursor: pointer;
+    padding: .3rem 0 .3rem .4rem;
+}
+
+.AdminNav aside ol li a {
+    color: #282828;
+    padding: .7rem;
+    border-radius: .5rem 0 0 .5rem;
+}
+
+.AdminNav aside ol li a.selected {
+    background-color: #2a5888;
+    color: white;
+}
+
+.AdminNav aside ol li a:not(.selected):hover,
+.AdminNav aside ol li a:not(.selected):focus {
+    background-color: #5180b0;
+    color: white;
+    outline: none;
+}
+
+.AdminNav aside ol li > ol.sub-list li {
+    background-color: #3a4558;
+}
+
+html[data-theme="dark"] .AdminNav aside {
+    background-color: #2c374c;
+}
+
+html[data-theme="dark"] .AdminNav aside ol li a {
+    color: white;
+}

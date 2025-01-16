@@ -1,0 +1,39 @@
+@import "/public/components/featured-catalog-update/FeaturedCatalogUpdate.css";
+@import "/public/components/product-detail-update/ProductDetailUpdate.css";
+@import "/public/components/product-image-update/ProductImageUpdate.css";
+
+.ProductList {
+    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 200px;
+}
+
+.ProductList .stock {
+    font-weight: bold;
+}
+
+.ProductList .stock.low {
+    color: #d76e6e;
+}
+
+.ProductList .stock.high {
+    color: #1ea566;
+}
+
+.ProductList .product-image {
+    --diameter: 50px;
+    width: var(--diameter);
+    height: var(--diameter);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+    object-fit: cover;
+}
+
+[data-theme="dark"] .ProductList .product-image {
+    background-color: #36465e
+}
