@@ -19,19 +19,19 @@ abstract class DatabaseConfiguration {
     /**
      * The username used for connecting to the database.
      */
-    // public const DB_USERNAME = 'u918235402_arcoirisferre';
-    public const DB_USERNAME = 'root';
+    public const DB_USERNAME = 'u918235402_arcoirisferre';
+    // public const DB_USERNAME = 'root';
 
     /**
      * The password used for connecting to the database.
      */
-    // public const DB_PASSWORD = 'FhE71Uiyw/2';
-    public const DB_PASSWORD = '';
+    public const DB_PASSWORD = 'FhE71Uiyw/2';
+    // public const DB_PASSWORD = '';
 
     /**
      * The name of the database to connect to.
      */
-    // public const DB_NAME = 'u918235402_arcoirisferre';
-    public const DB_NAME = 'ferreteria_arcoiris';
+    public const DB_NAME = 'u918235402_arcoirisferre';
+    // public const DB_NAME = 'ferreteria_arcoiris';
 }
 

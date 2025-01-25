@@ -47,12 +47,12 @@ abstract class EmailConfiguration {
     public const CONTACT_RECEIVER_EMAIL = 'contacto@arcoirisferretera.com.ar';
 
     /**
-     * The name of the receiver.
+     * The name of the sales receiver.
      */
     public const SALES_RECEIVER_NAME = 'Arcoiris Ferretera';
 
     /**
-     * The receiver email address.
+     * The sales receiver email address.
      */
     public const SALES_RECEIVER_EMAIL = 'ventas@arcoirisferretera.com.ar';
 }
