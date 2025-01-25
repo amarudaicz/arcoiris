@@ -2,6 +2,10 @@
     color: rgba(212, 216, 224, 0.5) !important;
 }
 
+.FeaturedProductGrid .spinner-add  {
+    color: rgba(63, 78, 107, 0.5) !important;
+}
+
 /*******/
 
 .FeaturedProductGrid .top-filter {

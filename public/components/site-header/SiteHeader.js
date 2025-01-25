@@ -13,7 +13,7 @@ function SiteHeader() {
 
     function _updateCartButtonText() {
         const cartState = appState.getState().cart;
-
+        
         if (cartState) {
             const cartCount = cartState.length;
             _cartButton.children[1].textContent = cartCount.toString();

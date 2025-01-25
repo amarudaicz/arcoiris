@@ -86,7 +86,7 @@ function CustomerSignIn() {
         return element;
     }
 
-    function _fetchProfile() {
+    function _fetchProfile() { 
         fetch('/api/v1/customers/profile', {
             method: 'GET', headers: {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
@@ -100,6 +100,7 @@ function CustomerSignIn() {
                     appState.setState(Object.assign(appState.getState(), {
                         customer: resp.data['profile']
                     }));
+                    
                     appState.saveState();
                     return;
                 }
@@ -179,6 +180,7 @@ function CustomerSignIn() {
                 .then(resp => {
                     if (resp.code === 200) {
                         appState.getState().customer = resp.data['profile'];
+                        appState.loadCart()
                         appState.notifyAll();
                         appState.saveState();
                         enableSubmitButton(_formElement['submit']);
@@ -208,8 +210,10 @@ function CustomerSignIn() {
                 .then(resp => {
                     if (resp.code === 200) {
                         appState.getState().customer = null;
+                        appState.getState().cart = []
                         appState.notifyAll();
                         appState.saveState();
+
                         enableSubmitButton(_signOutButtonElement);
                         return;
                     }

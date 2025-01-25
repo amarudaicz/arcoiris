@@ -142,7 +142,7 @@ export function ProductImageUpdate() {
                 .then(resp => resp.json())
                 .then(resp => {
                     if (resp.code === 200) {
-                        _product['productDetail']['imagePath'] = resp.data['imagePath'];
+                        _product['image_path'] = resp.data['imagePath'];
 
                         if (_self.onsuccess) _self.onsuccess();
 

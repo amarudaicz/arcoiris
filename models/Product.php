@@ -413,11 +413,13 @@ class Product implements JsonSerializable
         Logger::log('asd', $priceField);
         // Lógica para filtrar por 'featured'
         $featuredCondition = '';
-        if ($featured === 'true') {
+        if ($featured) {
             $featuredCondition = "AND p.featured = 1";
-        } elseif ($featured === 'false') {
+        } elseif ($featured) {
             $featuredCondition = "AND p.featured = 0";
         }
+
+        Logger::log('featureCondition', $featuredCondition);
 
         $query = "SELECT p.code,
                          p.description,
@@ -478,7 +480,7 @@ class Product implements JsonSerializable
      *
      * @return array
      */
-    public static function getProductsByCategoryCode(string $categoryCode, int $price_list = 0): array
+    public static function getProductsByCategoryCode(string $categoryCode, int $price_list = 0, $featured = null): array
     {
         $conn = Connection::getConn();
 
@@ -492,6 +494,13 @@ class Product implements JsonSerializable
 
         if ($price_list) {
             $priceField = "COALESCE(" . implode(", ", $priceColumns) . ', p.price)';
+        }
+
+        $featuredCondition = '';
+        if ($featured) {
+            $featuredCondition = "AND p.featured = 1";
+        } elseif ($featured) {
+            $featuredCondition = "AND p.featured = 0";
         }
 
 
@@ -508,7 +517,7 @@ FROM products p
          LEFT JOIN product_categories c on c.code = p.category_code
          LEFT JOIN product_details pd on p.code = pd.code
          LEFT JOIN items i on p.code = i.product_code
-WHERE p.category_code = '%s'
+WHERE p.category_code = '%s' AND 1=1 $featuredCondition
 GROUP BY p.code, c.description, p.description
 ORDER BY c.description, p.description";
 

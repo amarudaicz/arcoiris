@@ -123,12 +123,12 @@ abstract class Settings {
             $csvProductPrice = str_replace(',', '.', trim($row[5]));
             $csvFeatured = trim($row[7]);
             $csvProductStock = str_replace(',', '.', trim($row[10]));
-            $csvPrice1 = str_replace(',', '.', trim($row[12]));
-            $csvPrice2 = str_replace(',', '.', trim($row[14]));
-            $csvPrice3 = str_replace(',', '.', trim($row[16]));
-            $csvPrice4 = str_replace(',', '.', trim($row[18]));
-            $csvPrice5 = str_replace(',', '.', trim($row[20]));
-            $csvPrice6 = str_replace(',', '.', trim($row[22]));
+            $csvPrice1 = str_replace(',', '.', trim($row[11]));
+            $csvPrice2 = str_replace(',', '.', trim($row[13]));
+            $csvPrice3 = str_replace(',', '.', trim($row[15]));
+            $csvPrice4 = str_replace(',', '.', trim($row[17]));
+            $csvPrice5 = str_replace(',', '.', trim($row[19]));
+            $csvPrice6 = str_replace(',', '.', trim($row[21]));
             $csvProductDescription = iconv('latin1', 'utf8', $row[3]);
 
             $product = new Product();

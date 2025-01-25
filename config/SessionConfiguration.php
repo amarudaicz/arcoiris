@@ -24,7 +24,7 @@ abstract class SessionConfiguration {
     /**
      * The session cookie lifetime in minutes.
      */
-    public const SESSION_COOKIE_LIFETIME = '1440';
+    public const SESSION_COOKIE_LIFETIME = '3600';
 
     /**
      * Indicates whether the session cookie should be accessible only through HTTP (1 for true, 0 for false).

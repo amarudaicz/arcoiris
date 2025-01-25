@@ -83,11 +83,13 @@ abstract class Response {
      */
     public static function send(): void {
         header('Content-Type: application/json');
-
+        
         echo json_encode([
             "code" => self::$code,
             "data" => self::$data,
             "message" => self::$message,
         ]);
     }
+
+
 }

@@ -31,4 +31,12 @@ if (isset($router)) {
     $router->post('/api/v1/contact', 'api\Contact::createContactMessage');
 
     $router->set404NotFound('api\Api::error404');
+
+
+    //AD
+    $router->get('/api/v1/cart', 'api\Cart::getCart');
+    $router->post('/api/v1/cart/add', 'api\Cart::addItem');
+    $router->delete('/api/v1/cart/delete/(\d+)', 'api\Cart::deleteItem');
+    $router->delete('/api/v1/cart/clear', 'api\Cart::clearCart');
+    $router->post('/api/v1/cart/update', 'api\Cart::updateItem');
 }

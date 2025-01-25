@@ -1,34 +1,54 @@
-import {disableEntryButton, disableSubmitButton, enableEntryButton, enableSubmitButton} from "/public/components/util/SubmitButtons.js";
-import {SwtError, SwtInfo, SwtSuccess} from '/public/components/util/BoxMessage.js';
-import {siteHeader} from "/public/components/site-header/SiteHeader.js";
-import {Paginator} from "/public/components/paginator/Paginator.js";
-import {currencyFormat} from "/public/components/util/Util.js";
-import {appState} from "/public/components//util/AppState.js";
+import {
+  disableEntryButton,
+  disableSubmitButton,
+  enableEntryButton,
+  enableSubmitButton,
+} from "/public/components/util/SubmitButtons.js";
+import {
+  SwtError,
+  SwtInfo,
+  SwtSuccess,
+} from "/public/components/util/BoxMessage.js";
+import { siteHeader } from "/public/components/site-header/SiteHeader.js";
+import { Paginator } from "/public/components/paginator/Paginator.js";
+import { currencyFormat } from "/public/components/util/Util.js";
+import { appState } from "/public/components/util/AppState.js";
+import { addProduct } from "/public/components/util/CartActions.js";
 
 function ProductGrid(options = {}) {
-    const _rootElement = _createHTML();
-    const _statusElements = _rootElement.querySelectorAll('[data-js="status"]');
-    const _filterFormElement = _rootElement.querySelector('[data-js="filter-form"]');
-    const _filterLoaderElement = _rootElement.querySelector('[data-js="filter-loader"]');
-    const _entryContainerElement = _rootElement.querySelector('[data-js="entry-container"]');
-    const _downloadButtonElements = _rootElement.querySelectorAll('[data-js="download-button"]');
-    const _paginatorContainerElement = _rootElement.querySelector('[data-js="paginator-container"]');
+  const _rootElement = _createHTML();
+  const _statusElements = _rootElement.querySelectorAll('[data-js="status"]');
+  const _filterFormElement = _rootElement.querySelector(
+    '[data-js="filter-form"]'
+  );
+  const _filterLoaderElement = _rootElement.querySelector(
+    '[data-js="filter-loader"]'
+  );
+  const _entryContainerElement = _rootElement.querySelector(
+    '[data-js="entry-container"]'
+  );
+  const _downloadButtonElements = _rootElement.querySelectorAll(
+    '[data-js="download-button"]'
+  );
+  const _paginatorContainerElement = _rootElement.querySelector(
+    '[data-js="paginator-container"]'
+  );
 
-    let _paginator = null;
-    let _searchTimeOut = null;
+  let _paginator = null;
+  let _searchTimeOut = null;
 
-    function _constructor() {
-        _setupPaginator();
-        _setupEventListeners();
-        _fetchProducts();
-    }
+  function _constructor() {
+    _setupPaginator();
+    _setupEventListeners();
+    _fetchProducts();
+  }
 
-    function _createHTML() {
-        const element = document.querySelector('[data-component="ProductGrid"]');
+  function _createHTML() {
+    const element = document.querySelector('[data-component="ProductGrid"]');
 
-        element.className = "ProductGrid";
+    element.className = "ProductGrid";
 
-        element.innerHTML = `<div class="row g-2 mb-3 justify-content-end align-items-center">
+    element.innerHTML = `<div class="row g-2 mb-3 justify-content-end align-items-center">
     <div class="col-auto"><span class="me-2 spinner-border spinner-border-sm d-none" data-js="filter-loader"></span></div>
     <div class="col-auto">
         <button type="button" name="download-pdf" data-js="download-button" class="btn btn-sm btn-danger">
@@ -80,351 +100,468 @@ function ProductGrid(options = {}) {
     <!--Paginator-->
 </div>`;
 
-        return element;
-    }
+    return element;
+  }
 
-    function _setupPaginator() {
-        _paginator = new Paginator(_paginatorContainerElement, {
-            entriesPerPage: 15
-        });
-    }
+  function _setupPaginator() {
+    _paginator = new Paginator(_paginatorContainerElement, {
+      entriesPerPage: 15,
+    });
+  }
 
-    function _setupEventListeners() {
-        _filterFormElement.onsubmit = function () {
-            return false;
-        }
+  function _setupEventListeners() {
+    _filterFormElement.onsubmit = function () {
+      return false;
+    };
 
-        _downloadButtonElements[0].onclick = _downloadPDF;
+    _downloadButtonElements[0].onclick = _downloadPDF;
 
-        _downloadButtonElements[1].onclick = _downloadExcel;
+    _downloadButtonElements[1].onclick = _downloadExcel;
 
-        _filterFormElement['category'].onchange = function () {
-            _filterLoaderElement.classList.remove('d-none');
-            _blockFilter();
-            setTimeout(_filterEntries, 100);
-        }
+    _filterFormElement["category"].onchange = function () {
+      _filterLoaderElement.classList.remove("d-none");
+      _blockFilter();
+      setTimeout(_filterEntries, 100);
+    };
 
-        _filterFormElement['search'].oninput = function () {
-            if (_searchTimeOut) {
-                clearTimeout(_searchTimeOut);
-                _searchTimeOut = null;
-            }
+    _filterFormElement["search"].oninput = function () {
+      if (_searchTimeOut) {
+        clearTimeout(_searchTimeOut);
+        _searchTimeOut = null;
+      }
 
-            _searchTimeOut = setTimeout(() => {
-                _blockFilter();
-                _filterLoaderElement.classList.remove('d-none');
-                setTimeout(_filterEntries, 100);
-            }, 500);
-        };
-
-        _filterFormElement['sort'].onchange = function () {
-            _blockFilter();
-            _filterLoaderElement.classList.remove('d-none');
-            setTimeout(_filterEntries, 100);
-        };
-
-        _paginator.onChangePage = function () {
-            window.scrollTo(0, 0);
-        }
-    }
-
-    function _fetchProducts() {
-        _setLoading();
-
+      _searchTimeOut = setTimeout(() => {
         _blockFilter();
+        _filterLoaderElement.classList.remove("d-none");
+        setTimeout(_filterEntries, 100);
+      }, 500);
+    };
 
-        _filterLoaderElement.classList.remove('d-none');
+    _filterFormElement["sort"].onchange = function () {
+      _blockFilter();
+      _filterLoaderElement.classList.remove("d-none");
+      setTimeout(_filterEntries, 100);
+    };
 
-        setTimeout(() => {
-            fetch(`/api/v1/products`)
-                .then(resp => resp.json())
-                .then(resp => {
-                    if (resp.code === 200) {
-                        _processProducts(resp.data);
-                        _unblockFilter();
-                    } else throw new Error(resp.message);
-                })
-                .catch(reason => {
-                    _setError();
-                    SwtError.fire({title: reason}).then();
-                });
-        }, 400);
-    }
+    _paginator.onChangePage = function () {
+      window.scrollTo(0, 0);
+    };
+  }
 
-    function _processProducts(data) {
-        _entryContainerElement.innerHTML = '';
+  function _fetchProducts() {
+    _setLoading();
 
-        _filterFormElement['category'].innerHTML = '';
+    _blockFilter();
 
-        const categoryMap = {};
+    _filterLoaderElement.classList.remove("d-none");
 
-        data['products'].forEach(product => {
-            _entryContainerElement.append(_createProductElement(product));
-
-            if (!categoryMap[product['categoryCode']]) {
-                categoryMap[product['categoryCode']] = product['category']['description'];
-            }
+    setTimeout(() => {
+      fetch(`/api/v1/products`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.code === 200) {
+            _processProducts(resp.data);
+            _unblockFilter();
+          } else throw new Error(resp.message);
+        })
+        .catch((reason) => {
+          _setError();
+          SwtError.fire({ title: reason }).then();
         });
+    }, 400);
+  }
 
-        Object.keys(categoryMap).forEach(categoryCode => {
-            _filterFormElement['category'].append(_createCategoryOptionElement(categoryCode, categoryMap[categoryCode]));
-        });
+  function _processProducts(data) {
+    console.time("products");
 
-        _sortCategories();
+    _entryContainerElement.innerHTML = "";
 
-        _filterFormElement['category'].prepend(_createCategoryOptionElement(0, 'TODAS'));
+    _filterFormElement["category"].innerHTML = "";
 
-        _filterEntries();
+    const categoryMap = {};
+
+    data["products"].forEach((product, index) => {
+      _entryContainerElement.append(_createProductElement(product));
+
+      if (!categoryMap[product['category']["code"]]) {
+        categoryMap[product['category']["code"]] = product['category']["description"];
+      }
+    });
+
+    Object.keys(categoryMap).forEach((categoryCode) => {
+      _filterFormElement["category"].append(
+        _createCategoryOptionElement(categoryCode, categoryMap[categoryCode])
+      );
+    });
+
+    _sortCategories();
+
+    _filterFormElement["category"].prepend(
+      _createCategoryOptionElement(0, "TODAS")
+    );
+    _filterEntries();
+  }
+
+  function _createCategoryOptionElement(id, description) {
+    const element = document.createElement("option");
+
+    element.textContent = description;
+
+    element.value = id;
+
+    if (id === 0) {
+      element.selected = true;
     }
 
-    function _createCategoryOptionElement(id, description) {
-        const element = document.createElement('option');
+    return element;
+  }
 
-        element.textContent = description;
+  function _createProductElement(product) {
+    const element = document.createElement("div");
 
-        element.value = id;
+    element.className = "col";
 
-        if (id === 0) {
-            element.selected = true;
-        }
+    element.setAttribute("data-description", product["description"]);
+    element.setAttribute("data-category", product['category']["description"]);
+    element.setAttribute("data-category-code", product['category']["code"]);
+    element.setAttribute("data-price", product["price"]);
+    element.setAttribute("data-frequency", product["frequency"]);
 
-        return element;
-    }
-
-    function _createProductElement(product) {
-        const element = document.createElement('div');
-
-        element.className = "col";
-
-        element.setAttribute('data-description', product['description']);
-        element.setAttribute('data-category', product['category']['description']);
-        element.setAttribute('data-category-code', product['categoryCode']);
-        element.setAttribute('data-price', product['price']);
-        element.setAttribute('data-frequency', product['frequency']);
-
-        element.innerHTML = `<div class="product">
+    element.innerHTML = `<div class="product">
             <div class="product-header">
-                <img src="/${product['productDetail']['imagePath']}" class="product-image" loading="lazy" alt="Imagen que representa al producto en la grilla">
+                <img src="/${
+                  product['productDetail']["imagePath"]
+                }" class="product-image" loading="lazy" alt="Imagen que representa al producto en la grilla">
                 </div>
                 <div class="product-content">
                 <p class="product-description mb-0">
-                ${product['description']}
+                ${product["description"]}
                 </p> 
-                ${product['price'] !== 0 ? `<div class="product-price">${currencyFormat(product['price'])}</div>` : ''}
+                ${
+                  parseInt(product["price"])
+                    ? `<div class="product-price">${currencyFormat(
+                        product["price"]
+                      )}</div>`
+                    : ""
+                }
                 <p class="product-category small text-secondary mb-3">
-                    ${product['category']['description']}
+                    ${product['category']["description"]}
                 </p>
                 <div class="row">
                     <div class="col">
                         <div class="input-group">
                             <input type="number" name="product-quantity" class="product-quantity form-control" data-js="product-quantity" placeholder="1">
-                            <button name="product-add-button" class="btn btn-warning bi-cart-plus-fill" data-js="product-add-button"></button>
+                            <button id="product${
+                              product.code
+                            }" name="product-add-button" class="btn btn-warning " data-js="product-add-button">
+                                <span class="bi-cart-plus-fill"></span>
+                                <span class="spinner-border-sm spinner-border d-none"></span>
+                            </button>
                         </div>
                     </div>
                     <div class="col-auto">
                         <div class="product-code p-2">
-                            cod. ${product['code'].toString()}
+                            cod. ${product["code"].toString()}
                         </div>
                     </div>
                 </div>
             </div>
         </div>`;
 
-        const productAddButton = element.querySelector('[data-js="product-add-button"]');
-        const productQuantity = element.querySelector('[data-js="product-quantity"]');
+    const productAddButton = element.querySelector(
+      '[data-js="product-add-button"]'
+    );
+    const productQuantity = element.querySelector(
+      '[data-js="product-quantity"]'
+    );
 
-        productAddButton.onclick = _onClickProduct.bind(productAddButton, product, productQuantity);
+    productAddButton.onclick = _onClickProduct.bind(
+      productAddButton,
+      product,
+      productQuantity
+    );
 
-        return element;
+    return element;
+  }
+
+  async function _onClickProduct(product, productQuantity) {
+    
+    const customer = appState.getState().customer;
+    
+    if (!customer) {
+      SwtInfo.fire({
+        title: "Inicia sesión para poder agregar al carrito",
+      }).then();
+      return;
+    }
+    
+    const button = document.getElementById("product" + product.code);
+    if (!button) return;
+
+    const cartIcon = button.querySelector(".bi-cart-plus-fill");
+    const spinner = button.querySelector(".spinner-border");
+
+    if (cartIcon && spinner) {
+      cartIcon.classList.add("d-none");
+      spinner.classList.remove("d-none");
     }
 
-    function _onClickProduct(product, productQuantity) {
-        if (!appState.getState().cart) {
-            appState.getState().cart = [];
-        }
+    const quantity =
+      parseInt(productQuantity.value) > 0 ? parseInt(productQuantity.value) : 1;
 
-        appState.getState().cart.push({
-            productCode: product['code'],
-            image: product['productDetail']['imagePath'],
-            description: product['description'],
-            price: product['price'],
-            quantity: productQuantity.value.length > 0 ? parseInt(productQuantity.value) : 1,
-            total: product['price']
+    const existInCart = appState
+      .getState()
+      .cart.findIndex((item) => item.productCode === product["code"]);
+
+   
+    if (!appState.getState().cart) {
+      appState.getState().cart = [];
+    }
+
+    if (existInCart !== -1) {
+      appState.getState().cart[existInCart].quantity += quantity;
+    } else {
+      appState.getState().cart.push({
+        productCode: product["code"],
+        image: product['productDetail']["imagePath"],
+        description: product["description"],
+        price: product["price"],
+        quantity:
+          parseInt(productQuantity.value) > 0
+            ? parseInt(productQuantity.value)
+            : 1,
+        total: product["price"],
+      });
+    }
+
+    const addPersistentProduct = await addProduct(
+      customer.dni,
+      product,
+      quantity
+    );
+
+    if (addPersistentProduct.code === 400) {
+      SwtError.fire({ title: "Ocurrió un error al agregar al carrito" }).then();
+      if (cartIcon && spinner) {
+        spinner.classList.add("d-none");
+        cartIcon.classList.remove("d-none");
+      }
+      return;
+    } else if (addPersistentProduct.code === 401) {
+      SwtInfo.fire({ title: "Tu sesión expiro regístrate nuevamente" });
+      if (cartIcon && spinner) {
+        spinner.classList.add("d-none");
+        cartIcon.classList.remove("d-none");
+      }
+      return;
+    }
+
+    appState.getState().cart = addPersistentProduct.data.items;
+
+    productQuantity.value = "";
+
+    if (existInCart === -1) {
+      siteHeader.addCartCount();
+    }
+
+    SwtSuccess.fire({ title: "Item agregado al carrito" }).then();
+
+    appState.saveState();
+
+    appState.notifyAll();
+
+    if (cartIcon && spinner) {
+      spinner.classList.add("d-none");
+      cartIcon.classList.remove("d-none");
+    }
+  }
+
+  function _sortCategories() {
+    const categories = Array.from(_filterFormElement["category"].children);
+
+    categories.sort((optA, optB) => {
+      return optA.textContent.localeCompare(optB.textContent);
+    });
+
+    categories.forEach((option) => {
+      _filterFormElement["category"].append(option);
+    });
+  }
+
+  function _filterEntries() {
+    console.time("filter");
+
+    let _filteredEntries = Array.from(_entryContainerElement.children);
+
+    _filteredEntries = _filteredEntries.filter((entry) => {
+      let cond1 = true;
+      let cond2 = true;
+
+      entry.classList.add("d-none");
+
+      if (_filterFormElement["category"].value !== "0") {
+        cond1 =
+          entry.dataset["categoryCode"] ===
+          _filterFormElement["category"].value;
+      }
+
+      if (_filterFormElement["search"].value.trim().length > 0) {
+        const searchValue = _filterFormElement["search"].value
+          .toLowerCase()
+          .normalize("NFD"); // Normaliza el texto (opcional para acentos)
+
+        const searchWords = searchValue
+          .split(" ")
+          .filter((word) => word.trim() !== ""); // Divide en palabras
+
+        const entryText = entry.textContent.toLowerCase().normalize("NFD"); // Normaliza el texto
+
+        return searchWords.every((word) => entryText.includes(word));
+      }
+
+      return cond1 && cond2;
+    });
+
+    switch (parseInt(_filterFormElement["sort"].value)) {
+      case 0:
+        _filteredEntries.sort((itemB, itemA) => {
+          return itemB.dataset.category
+            .toLowerCase()
+            .localeCompare(itemA.dataset.category.toLowerCase());
         });
-
-        productQuantity.value = '';
-
-        siteHeader.addCartCount();
-
-        SwtSuccess.fire({title: 'Item agregado al carrito'}).then();
-
-        appState.saveState();
-
-        appState.notifyAll();
-    }
-
-    function _sortCategories() {
-        const categories = Array.from(_filterFormElement['category'].children);
-
-        categories.sort((optA, optB) => {
-            return optA.textContent.localeCompare(optB.textContent);
+        _filteredEntries.sort((itemB, itemA) => {
+          if (itemB.dataset.category === itemA.dataset.category)
+            return itemB.dataset.description
+              .toLowerCase()
+              .localeCompare(itemA.dataset.description.toLowerCase());
+          return 0;
         });
-
-        categories.forEach(option => {
-            _filterFormElement['category'].append(option);
+        break;
+      case 1:
+        _filteredEntries.sort((itemB, itemA) => {
+          return (
+            parseFloat(itemA.dataset.price) - parseFloat(itemB.dataset.price)
+          );
         });
-    }
-
-    function _filterEntries() {
-        console.time('filter');
-
-        let _filteredEntries = Array.from(_entryContainerElement.children);
-
-        _filteredEntries = _filteredEntries.filter(entry => {
-            let cond1 = true;
-            let cond2 = true;
-
-            entry.classList.add('d-none');
-
-            if (_filterFormElement['category'].value !== '0') {
-                cond1 = entry.dataset['categoryCode'] === _filterFormElement['category'].value;
-            }
-
-            if (_filterFormElement['search'].value.length > 0) {
-                cond2 = entry.textContent.toLowerCase().indexOf(_filterFormElement['search'].value.toLowerCase()) !== -1;
-            }
-
-            return cond1 && cond2;
+        break;
+      case 2:
+        _filteredEntries.sort((itemA, itemB) => {
+          return (
+            parseFloat(itemA.dataset.price) - parseFloat(itemB.dataset.price)
+          );
         });
-
-        switch (parseInt(_filterFormElement['sort'].value)) {
-            case 0:
-                _filteredEntries.sort((itemB, itemA) => {
-                    return itemB.dataset.category.toLowerCase().localeCompare(itemA.dataset.category.toLowerCase());
-                });
-                _filteredEntries.sort((itemB, itemA) => {
-                    if (itemB.dataset.category === itemA.dataset.category) return itemB.dataset.description.toLowerCase().localeCompare(itemA.dataset.description.toLowerCase());
-                    return 0;
-                });
-                break;
-            case 1:
-                _filteredEntries.sort((itemB, itemA) => {
-                    return parseFloat(itemA.dataset.price) - parseFloat(itemB.dataset.price);
-                });
-                break;
-            case 2:
-                _filteredEntries.sort((itemA, itemB) => {
-                    return parseFloat(itemA.dataset.price) - parseFloat(itemB.dataset.price);
-                });
-                break;
-            case 3:
-                _filteredEntries.sort((itemA, itemB) => {
-                    return parseFloat(itemB.dataset.frequency) - parseFloat(itemA.dataset.frequency);
-                });
-                break;
-        }
-
-        _filteredEntries.forEach(item => {
-            _entryContainerElement.append(item);
+        break;
+      case 3:
+        _filteredEntries.sort((itemA, itemB) => {
+          return (
+            parseFloat(itemB.dataset.frequency) -
+            parseFloat(itemA.dataset.frequency)
+          );
         });
-
-        _paginator.setEntries(_filteredEntries);
-
-        if (_filteredEntries.length > 0) {
-            _setLoaded();
-        } else {
-            _setNoEntries();
-        }
-
-        _filterLoaderElement.classList.add('d-none');
-
-        _unblockFilter();
-
-        _filterFormElement['search'].focus();
-
-        console.timeEnd('filter');
+        break;
     }
 
-    function _downloadExcel() {
-        window.open('/products/download/xml', '_blank');
+    _filteredEntries.forEach((item) => {
+      _entryContainerElement.append(item);
+    });
+
+    _paginator.setEntries(_filteredEntries);
+
+    if (_filteredEntries.length > 0) {
+      _setLoaded();
+    } else {
+      _setNoEntries();
     }
 
-    function _downloadPDF() {
-        const categoryCode = _filterFormElement['category'].value;
+    _filterLoaderElement.classList.add("d-none");
 
-        if (categoryCode === '0') {
-            SwtInfo.fire({title: 'Seleccione una categoria para descargar'}).then();
-            return;
-        }
+    _unblockFilter();
 
-        disableSubmitButton(this);
+    _filterFormElement["search"].focus();
 
-        const iframe = document.createElement('iframe');
+    console.timeEnd("filter");
+  }
 
-        iframe.src = `/products/download/pdf?category_code=${categoryCode}`;
+  function _downloadExcel() {
+    window.open("/products/download/xml", "_blank");
+  }
 
-        iframe.style.display = 'none';
+  function _downloadPDF() {
+    const categoryCode = _filterFormElement["category"].value;
 
-        document.body.append(iframe);
-
-        iframe.addEventListener('load', () => {
-            iframe.contentWindow.print();
-
-            iframe.contentWindow.onafterprint = () => {
-                iframe.remove();
-
-                enableSubmitButton(this);
-            }
-        });
+    if (categoryCode === "0") {
+      SwtInfo.fire({ title: "Seleccione una categoría para descargar" }).then();
+      return;
     }
 
-    function _blockFilter() {
-        _filterFormElement.firstElementChild.classList.add('disabled');
-        _filterFormElement['category'].disabled = true;
-        _filterFormElement['search'].disabled = true;
-        _filterFormElement['sort'].disabled = true;
-    }
+    disableSubmitButton(this);
 
-    function _unblockFilter() {
-        _filterFormElement.firstElementChild.classList.remove('disabled');
-        _filterFormElement['category'].disabled = false;
-        _filterFormElement['search'].disabled = false;
-        _filterFormElement['sort'].disabled = false;
-    }
+    const iframe = document.createElement("iframe");
 
-    function _setLoading() {
-        _statusElements[0].classList.remove('d-none');
-        _statusElements[1].classList.add('d-none');
-        _statusElements[2].classList.add('d-none');
-        _entryContainerElement.classList.add('d-none');
-        _paginatorContainerElement.classList.add('d-none');
-    }
+    iframe.src = `/products/download/pdf?category_code=${categoryCode}`;
 
-    function _setLoaded() {
-        _statusElements[0].classList.add('d-none');
-        _statusElements[1].classList.add('d-none');
-        _statusElements[2].classList.add('d-none');
-        _entryContainerElement.classList.remove('d-none');
-        _paginatorContainerElement.classList.remove('d-none');
-    }
+    iframe.style.display = "none";
 
-    function _setNoEntries() {
-        _statusElements[0].classList.add('d-none');
-        _statusElements[1].classList.remove('d-none');
-        _statusElements[2].classList.add('d-none');
-        _entryContainerElement.classList.add('d-none');
-        _paginatorContainerElement.classList.add('d-none');
-    }
+    document.body.append(iframe);
 
-    function _setError() {
-        _statusElements[0].classList.add('d-none');
-        _statusElements[1].classList.add('d-none');
-        _statusElements[2].classList.remove('d-none');
-        _entryContainerElement.classList.add('d-none');
-        _paginatorContainerElement.classList.add('d-none');
-    }
+    iframe.addEventListener("load", () => {
+      iframe.contentWindow.print();
 
-    _constructor.call(this);
+      iframe.contentWindow.onafterprint = () => {
+        iframe.remove();
+
+        enableSubmitButton(this);
+      };
+    });
+  }
+
+  function _blockFilter() {
+    _filterFormElement.firstElementChild.classList.add("disabled");
+    _filterFormElement["category"].disabled = true;
+    _filterFormElement["search"].disabled = true;
+    _filterFormElement["sort"].disabled = true;
+  }
+
+  function _unblockFilter() {
+    _filterFormElement.firstElementChild.classList.remove("disabled");
+    _filterFormElement["category"].disabled = false;
+    _filterFormElement["search"].disabled = false;
+    _filterFormElement["sort"].disabled = false;
+  }
+
+  function _setLoading() {
+    _statusElements[0].classList.remove("d-none");
+    _statusElements[1].classList.add("d-none");
+    _statusElements[2].classList.add("d-none");
+    _entryContainerElement.classList.add("d-none");
+    _paginatorContainerElement.classList.add("d-none");
+  }
+
+  function _setLoaded() {
+    _statusElements[0].classList.add("d-none");
+    _statusElements[1].classList.add("d-none");
+    _statusElements[2].classList.add("d-none");
+    _entryContainerElement.classList.remove("d-none");
+    _paginatorContainerElement.classList.remove("d-none");
+  }
+
+  function _setNoEntries() {
+    _statusElements[0].classList.add("d-none");
+    _statusElements[1].classList.remove("d-none");
+    _statusElements[2].classList.add("d-none");
+    _entryContainerElement.classList.add("d-none");
+    _paginatorContainerElement.classList.add("d-none");
+  }
+
+  function _setError() {
+    _statusElements[0].classList.add("d-none");
+    _statusElements[1].classList.add("d-none");
+    _statusElements[2].classList.remove("d-none");
+    _entryContainerElement.classList.add("d-none");
+    _paginatorContainerElement.classList.add("d-none");
+  }
+
+  _constructor.call(this);
 }
 
 export const products = new ProductGrid();

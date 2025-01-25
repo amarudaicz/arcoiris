@@ -10,6 +10,7 @@ use models\Session;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 /**
  *
@@ -136,19 +137,19 @@ abstract class Home
             return;
         }
 
-        $products = Product::getProducts();
+        $account = Session::getCustomer();
+        $price_list = $account ? $account->getPriceList() : 0;
+        $featured = !empty($_GET['featured']) ? 1 : 0;  
 
-        if (!empty($_GET['featured']) && $_GET['featured'] === 'true') {
-            $products = array_values(array_filter($products, function ($product): bool {
-                if (!($product instanceof Product)) return false;
-                return $product->isFeatured();
-            }));
-        }
 
+        $products = Product::getProducts($price_list, $featured);
         $productsLength = count($products);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+
+        $currentDateTime = date('d/m/Y H:i');
+        $sheet->setCellValue('A1', "LISTADO DE PRECIOS AL $currentDateTime");
 
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('B')->setAutoSize(true);
@@ -159,20 +160,20 @@ abstract class Home
         $sheet->getStyle([4, 2, 4, $productsLength + 5])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         $sheet->getStyle([4, 2, 4, $productsLength + 5])->getNumberFormat()->setFormatCode('"$"#,##0.00');
 
-        $sheet->setCellValue('A1', 'Código');
-        $sheet->setCellValue('B1', 'Descripción');
-        $sheet->setCellValue('C1', 'Categoría');
-        $sheet->setCellValue('D1', 'Precio con IVA');
+        $sheet->setCellValue('A2', 'CÓDIGO');
+        $sheet->setCellValue('B2', 'DESCRIPCIÓN');
+        $sheet->setCellValue('C2', 'CATEGORÍA');
+        $sheet->setCellValue('D2', 'PRECIO SIN IVA');
 
         $sheet->getRowDimension(1)->setRowHeight(23);
 
         foreach ($products as $i => $product) {
             if ($product instanceof Product) {
                 $sheet->getRowDimension($i + 2)->setRowHeight(23);
-                $sheet->setCellValue(sprintf('A%d', $i + 2), $product->getCode());
-                $sheet->setCellValue(sprintf('B%d', $i + 2), $product->getDescription());
-                $sheet->setCellValue(sprintf('C%d', $i + 2), $product->getCategory()->getDescription());
-                $sheet->setCellValue(sprintf('D%d', $i + 2), $product->getPrice());
+                $sheet->setCellValue(sprintf('A%d', $i + 3), $product->getCode());
+                $sheet->setCellValue(sprintf('B%d', $i + 3), $product->getDescription());
+                $sheet->setCellValue(sprintf('C%d', $i + 3), $product->getCategory()->getDescription());
+                $sheet->setCellValue(sprintf('D%d', $i + 3), $product->getPrice());
             }
         }
 
@@ -208,28 +209,102 @@ abstract class Home
      */
     public static function downloadPDFFeaturedProductFile(): void
     {
+
+        if (empty($_GET['category_code'])) {
+            Home::error404();
+            return;
+        }
+
         if (!isset($_SESSION['customer']) && !isset($_SESSION['user'])) {
             Home::error401();
             return;
         }
 
-        $filename = PathConfiguration::CATALOG_PATH . '/catalogo-destacados.pdf';
+        $signedIn = true;
 
-        if (is_file($filename)) {
-            header('Content-Type: application/pdf"');
+        if (!isset($_SESSION['customer']) && !isset($_SESSION['user'])) {
+            $signedIn = false;
+        }
 
-            header('Content-Disposition: attachment, filename="catalogo-destacados.pdf"');
+    
+        $account = Session::getCustomer();
+        $price_list = $account ? $account->getPriceList() : 0;
 
-            header('Content-Length: ' . filesize("storage/catalog/catalogo-destacados.pdf"));
+        $products = Product::getProductsByCategoryCode($_GET['category_code'], $price_list, 1);
 
-            $html = file_get_contents($filename);
-
-            echo $html;
-
+        if (empty($products)) {
+            Home::error404();
             return;
         }
 
-        Home::error404();
+        $entryTemplate =
+            /** @lang text */
+            <<<ENTRY
+        <div class="product">
+             <div class="product-header">
+                 <img src="%s" class="product-image" alt="Imagen producto">
+             </div>
+             <div class="product-code">cod. %s</div>
+             <div class="product-content">
+                 <p class="product-description">%s</p>
+                 <div class="product-price %s">$ %s</div>
+             </div>
+         </div>
+        ENTRY;
+
+        $content = '';
+ 
+        $page = '';
+
+        $currentCat = null;
+
+        $count = 1;
+
+        foreach ($products as $product) {
+            Logger::log('count; ', $count);
+            if (!$product instanceof Product) break;
+
+            if (!$signedIn) $product->setPrice(0);
+
+            if (!$currentCat) {
+                $currentCat = $product->getCategory()->getDescription();
+                $content .= sprintf('<div class="category-title">%s</div>', $currentCat);
+            } else if ($currentCat !== $product->getCategory()->getDescription()) {
+                $content .= sprintf('<div class="page">%s</div>', $page);
+                $page = '';
+                $count = 1;
+
+                $currentCat = $product->getCategory()->getDescription();
+                $content .= sprintf('<div class="category-title">%s</div>', $currentCat);
+            }
+            
+            //if the page is full add the page to the content and create a new page
+            if ($count === 10) {
+                $content .= sprintf('<div class="page">%s</div>', $page);
+                $page = '';
+                $count = 1;
+            }
+
+            //add an entry to the current page
+            $page .= sprintf($entryTemplate,
+            sprintf('/%s', $product->getProductDetail()->getImagePath()),
+            $product->getCode(),
+            $product->getDescription(),
+            $signedIn ? '' : 'd-none',
+            number_format($product->getPrice(), 2, ',', '.'),
+        );
+
+            $count++;
+        }
+
+        $html = file_get_contents(PathConfiguration::TEMPLATES_PATH . '/catalog.html');
+
+        $html = str_replace('<!--DATE-->', date('Y-m-d H:i:s'), $html);
+
+        $html = str_replace('<!--ENTRIES-->', $content, $html);
+
+        echo $html;
+        
     }
 
     /**
@@ -242,17 +317,20 @@ abstract class Home
             return;
         }
 
-        $products = Product::getProducts();
+        $account = Session::getCustomer();
+        $price_list = $account ? $account->getPriceList() : 0;
+        $featured = 1;  
 
-        $products = array_values(array_filter($products, function ($product): bool {
-            if (!($product instanceof Product)) return false;
-            return $product->isFeatured();
-        }));
 
+        $products = Product::getProducts($price_list, $featured);
         $productsLength = count($products);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+
+        $currentDateTime = date('d/m/Y H:i');
+        $sheet->setCellValue('A1', "LISTADO DE PRECIOS AL $currentDateTime");
+
 
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('B')->setAutoSize(true);
@@ -263,20 +341,20 @@ abstract class Home
         $sheet->getStyle([4, 2, 4, $productsLength + 5])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         $sheet->getStyle([4, 2, 4, $productsLength + 5])->getNumberFormat()->setFormatCode('"$"#,##0.00');
 
-        $sheet->setCellValue('A1', 'Código');
-        $sheet->setCellValue('B1', 'Descripción');
-        $sheet->setCellValue('C1', 'Categoría');
-        $sheet->setCellValue('D1', 'Precio con IVA');
+        $sheet->setCellValue('A2', 'CÓDIGO');
+        $sheet->setCellValue('B2', 'DESCRIPCIÓN');
+        $sheet->setCellValue('C2', 'CATEGORÍA');
+        $sheet->setCellValue('D2', 'PRECIO SIN IVA');
 
         $sheet->getRowDimension(1)->setRowHeight(23);
 
         foreach ($products as $i => $product) {
             if ($product instanceof Product) {
                 $sheet->getRowDimension($i + 2)->setRowHeight(23);
-                $sheet->setCellValue(sprintf('A%d', $i + 2), $product->getCode());
-                $sheet->setCellValue(sprintf('B%d', $i + 2), $product->getDescription());
-                $sheet->setCellValue(sprintf('C%d', $i + 2), $product->getCategory()->getDescription());
-                $sheet->setCellValue(sprintf('D%d', $i + 2), $product->getPrice());
+                $sheet->setCellValue(sprintf('A%d', $i + 3), $product->getCode());
+                $sheet->setCellValue(sprintf('B%d', $i + 3), $product->getDescription());
+                $sheet->setCellValue(sprintf('C%d', $i + 3), $product->getCategory()->getDescription());
+                $sheet->setCellValue(sprintf('D%d', $i + 3), $product->getPrice());
             }
         }
 
@@ -291,7 +369,7 @@ abstract class Home
         $file = file_get_contents($filename);
 
         header('Content-type: application/xls');
-        header('Content-disposition: attachment; filename="catalogo.xls"');
+        header('Content-disposition: attachment; filename="catalogo-destacados.xls"');
         header('Content-length: ' . filesize($filename));
 
         unlink($filename);
@@ -364,5 +442,36 @@ abstract class Home
     public static function termsAndPolicy(): void
     {
         echo file_get_contents('public/pages/terms-and-policy/terms-and-policy.html');
+    }
+
+
+
+        /**
+     * @return void
+     */
+    public static function downloadPDFFeaturedProductFileOLD(): void
+    {
+        if (!isset($_SESSION['customer']) && !isset($_SESSION['user'])) {
+            Home::error401();
+            return;
+        }
+
+        $filename = PathConfiguration::CATALOG_PATH . '/catalogo-destacados.pdf';
+
+        if (is_file($filename)) {
+            header('Content-Type: application/pdf"');
+
+            header('Content-Disposition: attachment, filename="catalogo-destacados.pdf"');
+
+            header('Content-Length: ' . filesize("storage/catalog/catalogo-destacados.pdf"));
+
+            $html = file_get_contents($filename);
+
+            echo $html;
+
+            return;
+        }
+
+        Home::error404();
     }
 }
